@@ -18,30 +18,37 @@ The university currently has no centralized system for recording and monitoring 
 
 ## 3. Use Case Diagram
 flowchart LR
-    User((USER))
+    User[👤 User]
 
-    subgraph System["ICT SERVICE REQUEST SYSTEM"]
-        Login([Login])
-        Dashboard([View Dashboard])
-        Create([Create Request])
-        View([View Requests])
-        Search([Search Request])
-        Filter([Filter Requests])
-        Update([Update Request])
-        Delete([Delete Request])
-        Logout([Logout])
+    subgraph System ["ICT SERVICE REQUEST SYSTEM"]
+        direction TB
+        
+        subgraph Auth ["Authentication"]
+            Login((Login))
+            Logout((Logout))
+        end
+
+        subgraph Portal ["Dashboard"]
+            Dashboard((View Dashboard))
+        end
+
+        subgraph Management ["Request Operations"]
+            Create((Create Request))
+            View((View Requests))
+            Update((Update Request))
+            Delete((Delete Request))
+        end
+
+        subgraph SearchFilter ["Discovery"]
+            Search((Search Request))
+            Filter((Filter Requests))
+        end
     end
 
-    User --- Login
-    User --- Dashboard
-    User --- Create
-    User --- View
-    User --- Search
-    User --- Filter
-    User --- Update
-    User --- Delete
-    User --- Logout
-
+    User --> Auth
+    User --> Portal
+    User --> Management
+    User --> SearchFilter
 ## XVI. Simple ERD
 
 ```mermaid
