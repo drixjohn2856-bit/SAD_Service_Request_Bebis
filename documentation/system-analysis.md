@@ -20,7 +20,7 @@ The university currently has no centralized system for recording and monitoring 
 
 ```mermaid
 flowchart LR
-    User[👤 User]
+    User[ User]
 
     subgraph System ["ICT SERVICE REQUEST SYSTEM"]
         direction TB
