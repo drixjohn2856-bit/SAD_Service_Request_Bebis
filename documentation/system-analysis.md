@@ -17,6 +17,8 @@ The university currently has no centralized system for recording and monitoring 
 - **Primary Actor:** System User / ICT Personnel
 
 ## 3. Use Case Diagram
+
+```mermaid
 flowchart LR
     User[👤 User]
 
@@ -49,6 +51,8 @@ flowchart LR
     User --> Portal
     User --> Management
     User --> SearchFilter
+```
+
 ## XVI. Simple ERD
 
 ```mermaid
