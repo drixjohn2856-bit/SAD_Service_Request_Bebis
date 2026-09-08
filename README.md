@@ -8,7 +8,7 @@ Section: BSIS-3A
 ## Supabase
 
 Supabase REST API:
-https://myomxjcldharbgajmwwb.supabase.co/rest/v1/
+https://supabase.com/dashboard/project/myomxjcldharbgajmwwb
 
 ## GitHub Repository
 GitHub Repository: https://github.com/drixjohn2856-bit/SAD_Service_Request_Bebis
