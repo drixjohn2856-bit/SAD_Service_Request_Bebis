@@ -6,67 +6,87 @@ ICT Service Request System
 
 ## Purpose
 
-The system gives university users a single place to submit and track ICT support requests. Authorized users can manage request details while support staff can update progress and completion status.
+The system provides a single platform for university users to submit and manage ICT service requests. It helps users report technical issues, track the status of requests, and allows authorized staff to update or remove outdated information efficiently.
 
-## Users
+## 1. Problem Statement
 
-- **Requester:** signs in and submits a service request.
-- **ICT staff:** reviews requests, updates status, edits request details, and deletes invalid or obsolete records.
+The university currently has no centralized system for recording and monitoring ICT support requests. Users may submit requests through informal channels, which causes delays, poor tracking, missing information, and difficulty in managing service priorities and completion status. A structured service request system is needed to improve efficiency, accountability, and response handling.
 
-## Core Data
+## 2. Actors
 
-Each service request stores the requester name, department, category, description, priority, status, owning user, and creation date.
+- **Primary Actor:** System User / ICT Personnel
 
-## Entity Relationship Diagram
+## 3. Use Case Diagram
+
+```mermaid
+graph LR
+    subgraph System["ICT SERVICE REQUEST SYSTEM"]
+        direction TB
+        UC1((Login))
+        UC2((View Dashboard))
+        UC3((Create Request))
+        UC4((View Requests))
+        UC5((Search Request))
+        UC6((Filter Requests))
+        UC7((Update Request))
+        UC8((Delete Request))
+        UC9((Logout))
+    end
+
+    User[USER] --- UC1
+    User --- UC2
+    User --- UC3
+    User --- UC4
+    User --- UC5
+    User --- UC6
+    User --- UC7
+    User --- UC8
+    User --- UC9
+```
+
+## XVI. Simple ERD
 
 ```mermaid
 erDiagram
-	AUTH_USERS ||--o{ SERVICE_REQUESTS : creates
+    USER ||--o{ SERVICE_REQUEST : creates
 
-	AUTH_USERS {
-		uuid id PK
-		string email
-	}
+    USER {
+        uuid user_id PK
+        string email
+    }
 
-	SERVICE_REQUESTS {
-		bigint id PK
-		text requester_name "required"
-		text department "required"
-		text category "required"
-		text description "required"
-		text priority "Low | Medium | High"
-		text status "Pending | In Progress | Completed"
-		uuid user_id FK
-		timestamptz created_at
-	}
+    SERVICE_REQUEST {
+        bigint id PK
+        text requester_name
+        text department
+        text category
+        text description
+        text priority
+        text status
+        timestamptz created_at
+        uuid user_id FK
+    }
 ```
 
-`AUTH_USERS` represents Supabase Authentication's built-in `auth.users` table. Each authenticated user can create zero or more service requests, while every service request belongs to one authenticated user through `user_id`.
+The `USER` entity represents the authenticated user account, while each `SERVICE_REQUEST` belongs to one user and is created by that user.
 
-## Business Rules
+## XVII. Requirements Traceability Matrix
 
-- **BR-01:** Requester name is required.
-- **BR-02:** Department is required.
-- **BR-03:** Category is required.
-- **BR-04:** Description is required.
-- **BR-05:** Priority must be Low, Medium, or High.
-- **BR-06:** New requests automatically receive Pending status.
-- **BR-07:** Status can be changed only while editing an existing request.
-- **BR-08:** Delete requires confirmation.
-- **BR-09:** The dashboard requires an authenticated Supabase session.
+| Req. ID | Requirement | System Feature | Test |
+| --- | --- | --- | --- |
+| FR-01 | User can log in | Login Page | TC-01 |
+| FR-02 | User can create request | Request Form | TC-02 |
+| FR-03 | User can view requests | Request Table | TC-03 |
+| FR-04 | User can update request | Edit Function | TC-04 |
+| FR-05 | User can delete request | Delete Function | TC-05 |
+| FR-06 | User can search | Search Function | TC-06 |
+| FR-07 | User can filter | Filter Function | TC-07 |
+| FR-08 | System displays summaries | Dashboard | TC-08 |
 
-## Main Workflows
-
-1. A user signs in with email and password.
-2. The dashboard loads requests ordered by newest first.
-3. The user submits a validated request; Supabase stores it with Pending status.
-4. Users search by requester or description and combine status and priority filters.
-5. An existing request can be edited, including its status.
-6. A confirmed delete removes a request and refreshes the dashboard.
-7. Logout ends the Supabase session and returns the user to the login page.
+This matrix shows that each system feature is directly linked to an identified requirement and a test case. It demonstrates that the application was designed based on defined user needs rather than ad hoc development.
 
 ## Non-functional Requirements
 
-- Responsive layout for desktop and mobile browsers.
-- Supabase Row Level Security should be enabled before production use.
-- Publishable/anon credentials may be used in browser code; service-role credentials must never be exposed.
+ Responsive layout for desktop and mobile browsers.
+ Supabase Row Level Security should be enabled before production use.
+ Publishable/anon credentials may be used in browser code; service-role credentials must never be exposed.
